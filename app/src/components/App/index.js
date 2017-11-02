@@ -13,9 +13,9 @@ import React from 'react';
  * Code
  */
 const App = () => (
-  <div classNameName="main">
+  <div className="main">
     <h1>Register Login Widget</h1>
-    <div classNameName="w3">
+    <div className="w3">
       <div className="signin-form profile">
         <h3>Login</h3>
         <div className="login-form">
@@ -50,7 +50,7 @@ const App = () => (
         <p><a href="#"> By clicking register, I agree to your terms</a></p>
       </div>
     </div>
-    <div classNameName="clear" />
+    <div className="clear" />
   </div>
 );
 

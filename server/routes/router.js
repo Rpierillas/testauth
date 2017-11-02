@@ -1,21 +1,19 @@
 const express = require('express');
-const router = express.Router();
 const User = require('../models/user');
 
-
-// GET route for reading data
-//router.get('/', function (req, res, next) {
-//  return res.sendFile(path.join('public/index.html'));
-//});
-
+const router = express.Router();
+//GET route for reading data
+router.get('/', function (req, res, next) {
+  return res.sendFile(path.join('/public/index.html'));
+});
 
 //POST route for updating data
 router.post('/', function (req, res, next) {
   // confirm that user typed same password twice
   if (req.body.password !== req.body.passwordConf) {
-    const err = new Error('Passwords do not match.');
+    const err = new Error('Vos mots de passe ne sont pas identiques');
     err.status = 400;
-    res.send("passwords dont match");
+    res.send('Les mots de passes ne correspondent pas');
     return next(err);
   }
 
@@ -34,25 +32,29 @@ router.post('/', function (req, res, next) {
     User.create(userData, function (error, user) {
       if (error) {
         return next(error);
-      } else {
+      }
+      else {
         req.session.userId = user._id;
         return res.redirect('/profile');
       }
     });
 
-  } else if (req.body.logemail && req.body.logpassword) {
+  }
+  else if (req.body.logemail && req.body.logpassword) {
     User.authenticate(req.body.logemail, req.body.logpassword, function (error, user) {
       if (error || !user) {
-        const err = new Error('Wrong email or password.');
+        const err = new Error('Identifiants incorrects.');
         err.status = 401;
         return next(err);
-      } else {
+      }
+      else {
         req.session.userId = user._id;
         return res.redirect('/profile');
       }
     });
-  } else {
-    const err = new Error('All fields required.');
+  }
+  else {
+    const err = new Error('Veuillez remplir tout les champs ! ');
     err.status = 400;
     return next(err);
   }
@@ -64,12 +66,14 @@ router.get('/profile', function (req, res, next) {
     .exec(function (error, user) {
       if (error) {
         return next(error);
-      } else {
+      }
+      else {
         if (user === null) {
-          const err = new Error('Not authorized! Go back!');
+          const err = new Error("Vous avez dépassé le périmètre de sécurité. Revenez d'où vous venez sous peine de... EXTERMINATE !! EXTERMINATE !!");
           err.status = 400;
           return next(err);
-        } else {
+        }
+        else {
           return res.send('<h1>Name: </h1>' + user.username + '<h2>Mail: </h2>' + user.email + '<br><a type="button" href="/logout">Logout</a>');
         }
       }
@@ -83,7 +87,8 @@ router.get('/logout', function (req, res, next) {
     req.session.destroy(function (err) {
       if (err) {
         return next(err);
-      } else {
+      }
+      else {
         return res.redirect('/');
       }
     });

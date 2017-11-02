@@ -1,26 +1,22 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-/*
- * Schema
- */
+// define the User model schema
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     index: { unique: true },
   },
-  username: {
-    type: String,
-    index: { unique: true },
-  },
   password: String,
+  username: String,
 });
-// authenticate input against database
+
+//authenticate input against database
 UserSchema.statics.authenticate = function (email, password, callback) {
   User.findOne({ email: email })
     .exec(function (err, user) {
       if (err) {
-        return callback(err);
+        return callback(err)
       } else if (!user) {
         const err = new Error('User not found.');
         err.status = 401;
@@ -32,21 +28,33 @@ UserSchema.statics.authenticate = function (email, password, callback) {
         } else {
           return callback();
         }
-      });
+      })
     });
-};
+}
 
-//hashing a password before saving it to the database
-UserSchema.pre('save', function (next) {
+/*
+ * The pre-save hook method.
+ */
+UserSchema.pre('save', function saveHook(next) {
   const user = this;
-  bcrypt.hash(user.password, 10, function (err, hash) {
-    if (err) {
-      return next(err);
-    }
-    user.password = hash;
-    next();
+
+  // proceed further only if the password is modified or the user is new
+  if (!user.isModified('password')) return next();
+
+
+  return bcrypt.genSalt((saltError, salt) => {
+    if (saltError) { return next(saltError); }
+
+    return bcrypt.hash(user.password, salt, (hashError, hash) => {
+      if (hashError) { return next(hashError); }
+
+      // replace a password string with hash value
+      user.password = hash;
+
+      return next();
+    });
   });
 });
 
-
-module.exports = mongoose.model('User', UserSchema);
+const User = mongoose.model('User', UserSchema);
+module.exports = User;

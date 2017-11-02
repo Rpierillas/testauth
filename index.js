@@ -1,6 +1,3 @@
-/*
- * import
- */
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -34,7 +31,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 
 // serve static files from template
-app.use(express.static('./public/'));
+app.use(express.static('./public'));
 
 // include routes
 const routes = require('./server/routes/router');
@@ -50,11 +47,10 @@ app.use(function (req, res, next) {
 
 // error handler
 // define as the last app.use callback
-//app.use(function (err, req, res, next) {
-//  if (err.status || 500) {
-///    return res.send(err.message);
-//  }
-//});
+app.use(function (err, req, res, next) {
+  res.status(err.status || 500);
+  res.send(err.message);
+});
 
 
 // listen on port 3000
