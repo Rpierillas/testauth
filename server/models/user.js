@@ -5,34 +5,25 @@ const bcrypt = require('bcrypt');
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
-    index: { unique: true },
+    index: { unique: true }
   },
   password: String,
-  username: String,
+  name: String
 });
 
-//authenticate input against database
-UserSchema.statics.authenticate = function (email, password, callback) {
-  User.findOne({ email: email })
-    .exec(function (err, user) {
-      if (err) {
-        return callback(err)
-      } else if (!user) {
-        const err = new Error('User not found.');
-        err.status = 401;
-        return callback(err);
-      }
-      bcrypt.compare(password, user.password, function (err, result) {
-        if (result === true) {
-          return callback(null, user);
-        } else {
-          return callback();
-        }
-      })
-    });
-}
 
-/*
+/**
+ * Compare the passed password with the value in the database. A model method.
+ *
+ * @param {string} password
+ * @returns {object} callback
+ */
+UserSchema.methods.comparePassword = function comparePassword(password, callback) {
+  bcrypt.compare(password, this.password, callback);
+};
+
+
+/**
  * The pre-save hook method.
  */
 UserSchema.pre('save', function saveHook(next) {
@@ -56,5 +47,5 @@ UserSchema.pre('save', function saveHook(next) {
   });
 });
 
-const User = mongoose.model('User', UserSchema);
-module.exports = User;
+
+module.exports = mongoose.model('User', UserSchema);
