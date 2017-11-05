@@ -42,7 +42,7 @@ const LoginForm = ({
       </div>
 
       <div className="button-line">
-        <button type="submit" label="Log in" />
+        <button type="submit" label="Log in"> OK </button>
       </div>
 
       <p>Don't have an account? Create one.</p>

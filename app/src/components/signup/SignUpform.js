@@ -56,7 +56,7 @@ const SignUpform = ({
       </div>
 
       <div className="button-line">
-        <button type="submit" label="Create New Account" />
+        <button type="submit" label="Create New Account"> OK </button>
       </div>
 
       <p>Already have an account? Log in </p>
