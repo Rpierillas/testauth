@@ -22,13 +22,13 @@ const SignUpform = ({
     <form onSubmit={onSubmit}>
       <h2 className="card-heading">Sign Up</h2>
 
-      {errors.summary && <p className="error-message">{errors.summary}</p>}
+
 
       <div className="field-line">
         <input
-          floatingLabelText="Name"
+          placeholder="Name"
           name="name"
-          errorText={errors.name}
+        //  errorText={errors.name}
           onChange={onChange}
           value={user.name}
         />
@@ -36,9 +36,9 @@ const SignUpform = ({
 
       <div className="field-line">
         <input
-          floatingLabelText="Email"
+          placeholder="Email"
           name="email"
-          errorText={errors.email}
+          //errorText={errors.email}
           onChange={onChange}
           value={user.email}
         />
@@ -46,17 +46,17 @@ const SignUpform = ({
 
       <div className="field-line">
         <input
-          floatingLabelText="Password"
+          placeholder="Password"
           type="password"
           name="password"
           onChange={onChange}
-          errorText={errors.password}
+          //errorText={errors.password}
           value={user.password}
         />
       </div>
 
       <div className="button-line">
-        <button type="submit" label="Create New Account" primary />
+        <button type="submit" label="Create New Account" />
       </div>
 
       <p>Already have an account? Log in </p>

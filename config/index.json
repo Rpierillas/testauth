@@ -1,0 +1,4 @@
+{
+  "dbUri": "mongodb://localhost/pompidou",
+  "jwtSecret": "You've been mentossed !!"
+}

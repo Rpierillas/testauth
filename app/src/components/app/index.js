@@ -6,7 +6,7 @@ import React from 'react';
 /*
  * Local import
  */
-import Home from 'src/components/Home';
+import HomePage from 'src/components/Home';
 import LoginPage from 'src/components/login';
 import SignUpPage from 'src/components/signup';
 /*
@@ -14,7 +14,7 @@ import SignUpPage from 'src/components/signup';
  */
 const App = () => (
   <div id="main">
-    <Home />
+    <HomePage />
     <LoginPage />
     <SignUpPage />
   </div>
